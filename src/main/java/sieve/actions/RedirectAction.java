@@ -1,11 +1,11 @@
-package actions;
+package sieve.actions;
 
 import models.EmailMessage;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionRedirect;
 import utils.StringUtils;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 public class RedirectAction implements MailAction
 {

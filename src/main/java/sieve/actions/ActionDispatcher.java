@@ -1,10 +1,10 @@
-package actions;
+package sieve.actions;
 
 
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 import models.EmailMessage;
 import org.apache.jsieve.mail.*;

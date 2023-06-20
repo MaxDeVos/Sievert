@@ -1,4 +1,6 @@
-import actions.ActionDispatcher;
+package sieve;
+
+import sieve.actions.ActionDispatcher;
 import models.EmailMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.jsieve.SieveContext;
@@ -9,9 +11,9 @@ import org.apache.jsieve.mail.AddressImpl;
 import org.apache.jsieve.mail.MailAdapter;
 import org.apache.jsieve.mail.SieveMailException;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.InternetAddress;
+import jakarta.mail.internet.MimeMessage;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -26,7 +28,7 @@ public class JavaxMailAdapter implements MailAdapter
     List<Action> actions = new LinkedList<>();
     ActionDispatcher actionDispatcher;
 
-    JavaxMailAdapter(MimeMessage message) throws IOException, MessagingException
+    public JavaxMailAdapter(MimeMessage message) throws IOException, MessagingException
     {
         this.actionDispatcher = new ActionDispatcher();
         this.message = new EmailMessage(message);
@@ -292,7 +294,7 @@ public class JavaxMailAdapter implements MailAdapter
 
         try
         {
-            for (javax.mail.Address jxAddress : message.getAllRecipients())
+            for (jakarta.mail.Address jxAddress : message.getAllRecipients())
             {
                 InternetAddress iAddress = (InternetAddress) jxAddress;
                 String rawEmailAddress = iAddress.getAddress();

@@ -1,14 +1,24 @@
+import com.sun.mail.imap.IMAPFolder;
+import com.sun.mail.imap.IMAPMessage;
 import com.sun.mail.imap.IMAPStore;
+import com.sun.mail.imap.SortTerm;
+import com.sun.mail.smtp.SMTPMessage;
+import listeners.MailListener;
 import models.EmailMessage;
+import utils.StringUtils;
 import org.apache.jsieve.*;
 import org.apache.jsieve.parser.generated.Node;
 
-import javax.mail.Folder;
-import javax.mail.Message;
-import javax.mail.Session;
-import javax.mail.internet.MimeMessage;
+import jakarta.mail.Flags;
+import jakarta.mail.Folder;
+import jakarta.mail.Message;
+import jakarta.mail.Session;
+import jakarta.mail.event.MessageCountAdapter;
+import jakarta.mail.internet.MimeMessage;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Arrays;
 import java.util.Properties;
 
 public class Main
@@ -25,33 +35,63 @@ public class Main
         File scriptResource = new File(ClassLoader.getSystemResource("test.sieve").getFile());
         Node n = factory.parse(new FileInputStream(scriptResource));
 
-        // Configure email server
-        String host = "imap.gmail.com";
-        int port = 993;
-        String username = "devosmaxwell@gmail.com";
-        String password = "brlktiwghykveuet";
-        Properties props = new Properties();
-        props.put("mail.imap.host", host);
-        props.put("mail.imap.user", username);
-        props.put("mail.imap.port", port);
-        props.put("mail.imap.ssl.enable", true);
-        props.put("mail.imap.ssl.trust", "*");
-
-        // Connect to email server
-        Session session = Session.getInstance(props);
+        Session session = Session.getInstance(new Properties());
+        session.setDebug(true);
         IMAPStore store = (IMAPStore) session.getStore("imaps");
-        store.connect(host, port, username, password);
+
+        store.connect("imappro.zoho.com", 993, "max@maxdevos.com", "AG5seW7Rsvbw");
+//        store.connect( "imap.gmail.com", 993, "devosmaxwell@gmail.com", "brlktiwghykveuet");
 
         // Select email folder, iterate through messages
-        Folder inbox = store.getFolder("real people emails");
-//        Folder inbox = store.getFolder("INBOX");
+        IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
+
+        MailListener mailListener = new MailListener();
+        inbox.addMessageChangedListener(mailListener);
+        inbox.addFolderListener(mailListener);
+        inbox.addMessageCountListener(mailListener);
         inbox.open(Folder.READ_WRITE);
-        Message[] messages = inbox.getMessages();
-        for (Message m : messages)
-        {
-            EmailMessage mm = new EmailMessage((MimeMessage) m);
-            JavaxMailAdapter mailAdapter = new JavaxMailAdapter(mm);
-            factory.evaluate(mailAdapter, n);
-        }
+
+//        Message[] messages = inbox.getMessages();
+
+
+
+
+        inbox.idle();
+
+//        for (Message m : messages)
+//        {
+//            EmailMessage mm = new EmailMessage((MimeMessage) m);
+//
+//            IMAPMessage imapMessage = (IMAPMessage) m;
+//            Flags flags = imapMessage.getFlags();
+//            flags.add("maxTestFlag");
+//
+//            imapMessage.setFlags(flags, true);
+//
+//            inbox.close();
+//            store.close();
+//
+//            System.out.println(mm.getSubject());
+//            System.out.println(mm.getSentDate().toString());
+//
+//            System.out.println("WAITING");
+//            Thread.sleep(5000);
+//
+//            Session session = Session.getInstance(new Properties());
+//            IMAPStore store = (IMAPStore) session.getStore("imaps");
+//            store.connect("imap.mailfence.com", 993, "maxdevos@mailfence.com", "Upfront!Dinginess2!Lapdog!Bonfire");
+//
+//            IMAPFolder mailfenceInbox = (IMAPFolder) store.getFolder("INBOX/Important");
+//            mailfenceInbox.open(Folder.READ_WRITE);
+////            Message[] messages = mailfenceInbox.getMessages();
+//
+//            mailfenceInbox.addMessages(new Message[]{mm});
+//            FileOutputStream outputStream = new FileOutputStream(StringUtils.sanitize(mm.getSubject()) + ".eml");
+//            mm.writeTo(outputStream);
+//            outputStream.close();
+////            sieve.JavaxMailAdapter mailAdapter = new sieve.JavaxMailAdapter(mm);
+////            factory.evaluate(mailAdapter, n);
+//            break;
+//        }
     }
 }

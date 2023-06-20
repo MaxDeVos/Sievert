@@ -1,9 +1,9 @@
-package actions;
+package sieve.actions;
 
 import models.EmailMessage;
 import org.apache.jsieve.mail.Action;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 public interface MailAction
 {

@@ -1,4 +1,4 @@
-package commands;
+package sieve.commands;
 
 import org.apache.jsieve.Arguments;
 import org.apache.jsieve.Block;

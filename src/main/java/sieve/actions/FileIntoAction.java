@@ -1,10 +1,10 @@
-package actions;
+package sieve.actions;
 
 import models.EmailMessage;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
 
-import javax.mail.MessagingException;
+import jakarta.mail.MessagingException;
 
 public class FileIntoAction implements MailAction
 {
