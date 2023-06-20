@@ -39,8 +39,9 @@ public class Main
         session.setDebug(true);
         IMAPStore store = (IMAPStore) session.getStore("imaps");
 
-        store.connect("imappro.zoho.com", 993, "max@maxdevos.com", "AG5seW7Rsvbw");
-//        store.connect( "imap.gmail.com", 993, "devosmaxwell@gmail.com", "brlktiwghykveuet");
+
+        store.connect("imappro.zoho.com", 993, "max@maxdevos.com", System.getenv().get("ZOHO_APP_PASSWORD"));
+//        store.connect( "imap.gmail.com", 993, "devosmaxwell@gmail.com", System.getenv().get("GMAIL_APP_PASSWORD"));
 
         // Select email folder, iterate through messages
         IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
