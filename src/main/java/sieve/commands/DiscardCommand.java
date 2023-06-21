@@ -12,13 +12,13 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class Discard implements the Discard Command as defined in RFC 3028, section
  * 4.5.
  */
-public class Discard extends AbstractActionCommand
+public class DiscardCommand extends AbstractActionCommand
 {
 
     /**
      * Constructor for Discard.
      */
-    public Discard() {
+    public DiscardCommand() {
         super();
     }
 

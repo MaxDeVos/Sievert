@@ -23,12 +23,12 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class Reject implements the Reject Command as defined in RFC 3028, section
  * 4.1.
  */
-public class Reject extends AbstractActionCommand {
+public class RejectCommand extends AbstractActionCommand {
 
     /**
      * Constructor for Reject.
      */
-    public Reject() {
+    public RejectCommand() {
         super();
     }
 

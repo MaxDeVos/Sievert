@@ -14,12 +14,12 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class FileInto implements the FileInto Command as defined in RFC 3028,
  * section 4.2.
  */
-public class FileInto extends AbstractActionCommand {
+public class FileIntoCommand extends AbstractActionCommand {
 
     /**
      * Constructor for Require.
      */
-    public FileInto() {
+    public FileIntoCommand() {
         super();
     }
 
@@ -42,8 +42,7 @@ public class FileInto extends AbstractActionCommand {
         final String destination = ((StringListArgument) arguments
                 .getArgumentList().get(0)).getList().get(0);
 
-        // Only one fileinto per destination allowed, others should be
-        // discarded
+        // Only one fileinto per destination allowed, others should be discarded
         boolean isDuplicate = false;
         for (final Action action: mail.getActions()) {
             isDuplicate = (action instanceof ActionFileInto)

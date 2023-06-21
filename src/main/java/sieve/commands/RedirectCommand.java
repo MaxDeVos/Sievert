@@ -13,13 +13,13 @@ import org.apache.jsieve.mail.MailAdapter;
  * Class Redirect implements the Redirect Command as defined in RFC 3028,
  * section 4.3.
  */
-public class Redirect extends AbstractActionCommand
+public class RedirectCommand extends AbstractActionCommand
 {
 
     /**
      * Constructor for Redirect.
      */
-    public Redirect() {
+    public RedirectCommand() {
         super();
     }
 

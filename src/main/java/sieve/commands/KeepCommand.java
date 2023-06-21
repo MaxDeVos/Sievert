@@ -11,13 +11,13 @@ import org.apache.jsieve.mail.MailAdapter;
 /**
  * Class Keep implements the Keep Command as defined in RFC 3028, section 4.4.
  */
-public class Keep extends AbstractActionCommand
+public class KeepCommand extends AbstractActionCommand
 {
 
     /**
      * Constructor for Keep.
      */
-    public Keep() {
+    public KeepCommand() {
         super();
     }
 
