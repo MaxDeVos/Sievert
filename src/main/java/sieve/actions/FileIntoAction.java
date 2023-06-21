@@ -1,5 +1,7 @@
 package sieve.actions;
 
+import com.sun.mail.imap.IMAPFolder;
+import jakarta.mail.Message;
 import models.EmailMessage;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
@@ -47,6 +49,7 @@ public class FileIntoAction implements MailAction
     {
 
         System.out.println("FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
+        aMail.move(anAction.getDestination());
 
 //        String destinationMailbox = anAction.getDestination();
 //        MailAddress recipient;

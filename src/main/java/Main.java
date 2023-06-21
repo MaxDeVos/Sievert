@@ -3,8 +3,10 @@ import com.sun.mail.imap.IMAPMessage;
 import com.sun.mail.imap.IMAPStore;
 import com.sun.mail.imap.SortTerm;
 import com.sun.mail.smtp.SMTPMessage;
+import com.sun.mail.smtp.SMTPOutputStream;
 import listeners.MailListener;
 import models.EmailMessage;
+import sieve.JavaxMailAdapter;
 import utils.StringUtils;
 import org.apache.jsieve.*;
 import org.apache.jsieve.parser.generated.Node;
@@ -36,7 +38,7 @@ public class Main
         Node n = factory.parse(new FileInputStream(scriptResource));
 
         Session session = Session.getInstance(new Properties());
-        session.setDebug(true);
+        session.setDebug(false);
         IMAPStore store = (IMAPStore) session.getStore("imaps");
 
 
@@ -46,16 +48,26 @@ public class Main
         // Select email folder, iterate through messages
         IMAPFolder inbox = (IMAPFolder) store.getFolder("INBOX");
 
-        MailListener mailListener = new MailListener();
-        inbox.addMessageChangedListener(mailListener);
-        inbox.addFolderListener(mailListener);
-        inbox.addMessageCountListener(mailListener);
+//        MailListener mailListener = new MailListener();
+//        inbox.addMessageChangedListener(mailListener);
+//        inbox.addFolderListener(mailListener);
+//        inbox.addMessageCountListener(mailListener);
         inbox.open(Folder.READ_WRITE);
 
-//        Message[] messages = inbox.getMessages();
+        Message[] messages = inbox.getMessages();
+        for(Message message: messages){
 
+            IMAPMessage imapMessage = (IMAPMessage) message;
+            System.out.println(Arrays.toString(imapMessage.getFlags().getUserFlags()));
+            Flags flags = imapMessage.getFlags();
+            flags.add("PISS");
+            imapMessage.setFlags(flags, true);
+////            System.out.println(imapMessage.getFolder().getName());
+//
+//            JavaxMailAdapter mailAdapter = new JavaxMailAdapter(imapMessage);
+//            factory.evaluate(mailAdapter, n);
 
-
+        }
 
         inbox.idle();
 

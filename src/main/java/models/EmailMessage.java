@@ -1,8 +1,11 @@
 package models;
 
+import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 
 import jakarta.mail.Address;
+import jakarta.mail.Folder;
+import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
 import jakarta.mail.internet.MimeMessage;
@@ -12,11 +15,13 @@ import java.util.List;
 public class EmailMessage extends MimeMessage
 {
     String subject;
-    public EmailMessage(MimeMessage message) throws MessagingException
+    IMAPMessage originalMessageReference;
+    public EmailMessage(IMAPMessage message) throws MessagingException
     {
         super(message);
         subject = getSubject();
         setHeader("x-returns-to-sender", String.valueOf(returnsToSender()));
+        originalMessageReference = message;
     }
 
     public boolean returnsToSender(){
@@ -49,6 +54,24 @@ public class EmailMessage extends MimeMessage
             e.printStackTrace();
             return true;
         }
+    }
+
+    public IMAPMessage getOriginalMessageReference(){
+        return originalMessageReference;
+    }
+
+    public void move(String destination) throws MessagingException
+    {
+        if(destination.equalsIgnoreCase(originalMessageReference.getFolder().getName()))
+        {
+           return;
+        }
+
+        IMAPFolder currentFolder = (IMAPFolder) originalMessageReference.getFolder();
+        IMAPFolder destinationFolder = (IMAPFolder) originalMessageReference.getFolder().getStore().getFolder(destination);
+        destinationFolder.open(Folder.READ_WRITE);
+        currentFolder.moveMessages(new Message[]{originalMessageReference}, destinationFolder);
+        destinationFolder.close(true);
     }
 
 }

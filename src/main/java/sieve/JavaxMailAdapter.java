@@ -1,5 +1,6 @@
 package sieve;
 
+import com.sun.mail.imap.IMAPMessage;
 import sieve.actions.ActionDispatcher;
 import models.EmailMessage;
 import org.apache.commons.lang3.StringUtils;
@@ -28,7 +29,7 @@ public class JavaxMailAdapter implements MailAdapter
     List<Action> actions = new LinkedList<>();
     ActionDispatcher actionDispatcher;
 
-    public JavaxMailAdapter(MimeMessage message) throws IOException, MessagingException
+    public JavaxMailAdapter(IMAPMessage message) throws IOException, MessagingException
     {
         this.actionDispatcher = new ActionDispatcher();
         this.message = new EmailMessage(message);
