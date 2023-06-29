@@ -5,17 +5,15 @@ import org.apache.jsieve.mail.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AddFlagActionContext implements Action
+public class SetFlagActionContext implements Action
 {
     public List<String> flags = new ArrayList<>();
 
-    public AddFlagActionContext(List<String> flags)
-    {
+    public SetFlagActionContext(List<String> flags){
         this.flags.addAll(flags);
     }
 
-    public AddFlagActionContext(String flag)
-    {
+    public SetFlagActionContext(String flag){
         this.flags.add(flag);
     }
 

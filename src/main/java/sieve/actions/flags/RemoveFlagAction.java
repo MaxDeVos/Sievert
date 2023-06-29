@@ -5,12 +5,16 @@ import jakarta.mail.MessagingException;
 import models.EmailMessage;
 import models.IMAPFlags;
 import org.apache.jsieve.mail.Action;
+import org.apache.jsieve.mail.ActionFileInto;
 import sieve.actions.MailAction;
-import sieve.actions.actionContexts.AddFlagActionContext;
 import sieve.actions.actionContexts.RemoveFlagActionContext;
+import utils.ConsoleUtils;
 import utils.FlagUtils;
 
-public class AddFlagAction implements MailAction
+import java.util.Arrays;
+import java.util.Collections;
+
+public class RemoveFlagAction implements MailAction
 {
     /**
      * Executes the given action.
@@ -22,17 +26,18 @@ public class AddFlagAction implements MailAction
     @Override
     public void execute(Action action, EmailMessage mail) throws MessagingException
     {
-        if (action instanceof final AddFlagActionContext removeFlagActionContext) {
+        if (action instanceof final RemoveFlagActionContext removeFlagActionContext) {
             execute(removeFlagActionContext, mail);
         }
     }
 
-    public void execute(AddFlagActionContext actionContext, EmailMessage mail) throws MessagingException
+    public void execute(RemoveFlagActionContext actionContext, EmailMessage mail) throws MessagingException
     {
-        // JavaMail takes care of case where flag doesn't exist and handles lowercase conversion
-        IMAPFlags newFlags = new IMAPFlags(actionContext.flags);
-        newFlags.add(mail.getOriginalMessageReference().getFlags());
-        mail.getOriginalMessageReference().setFlags(newFlags, true);
 
+        // JavaMail takes care of case where flag doesn't exist and handles lowercase conversion
+//        Flags originalFlags = mail.getOriginalMessageReference().getFlags();
+        IMAPFlags newFlags = new IMAPFlags(actionContext.flags);
+//        originalFlags.remove(newFlags);
+        mail.getOriginalMessageReference().setFlags(newFlags, false);
     }
 }

@@ -18,10 +18,8 @@ public class KeepAction extends FileIntoAction implements MailAction
 
     private static final String INBOX = "INBOX";
 
-    public void execute(Action action, EmailMessage mail)
-            throws MessagingException {
-        if (action instanceof ActionKeep) {
-            final ActionKeep actionKeep = (ActionKeep) action;
+    public void execute(Action action, EmailMessage mail) throws MessagingException {
+        if (action instanceof final ActionKeep actionKeep) {
             execute(actionKeep, mail);
         }
     }
@@ -42,7 +40,6 @@ public class KeepAction extends FileIntoAction implements MailAction
      */
     public void execute(ActionKeep anAction, EmailMessage aMail) throws MessagingException
     {
-        System.out.println("KEEPING " + aMail.getSubject());
         final ActionFileInto action = new ActionFileInto(INBOX);
         execute(action, aMail);
     }

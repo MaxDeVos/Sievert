@@ -15,10 +15,8 @@ import org.apache.jsieve.mail.ActionReject;
 public class RejectAction implements MailAction
 {
 
-    public void execute(Action action, EmailMessage mail)
-            throws MessagingException {
-        if (action instanceof ActionReject) {
-            final ActionReject actionReject = (ActionReject) action;
+    public void execute(Action action, EmailMessage mail) throws MessagingException {
+        if (action instanceof final ActionReject actionReject) {
             execute(actionReject, mail);
         }
 

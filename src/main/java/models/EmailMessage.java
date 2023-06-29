@@ -20,6 +20,7 @@ public class EmailMessage extends MimeMessage
     {
         super(message);
         subject = getSubject();
+        System.out.println(subject + " | X-RETURNS-TO-SENDER: " + returnsToSender());
         setHeader("x-returns-to-sender", String.valueOf(returnsToSender()));
         originalMessageReference = message;
     }

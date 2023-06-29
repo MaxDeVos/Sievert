@@ -11,13 +11,10 @@ public class RedirectAction implements MailAction
 {
 
     public void execute(Action action, EmailMessage mail) throws MessagingException
-
     {
-        if (action instanceof ActionRedirect) {
-            final ActionRedirect actionRedirect = (ActionRedirect) action;
+        if (action instanceof final ActionRedirect actionRedirect) {
             execute(actionRedirect, mail);
         }
-
     }
 
     /**

@@ -1,25 +1,19 @@
 import com.sun.mail.imap.IMAPFolder;
 import com.sun.mail.imap.IMAPMessage;
 import com.sun.mail.imap.IMAPStore;
-import com.sun.mail.imap.SortTerm;
-import com.sun.mail.smtp.SMTPMessage;
-import com.sun.mail.smtp.SMTPOutputStream;
-import listeners.MailListener;
-import models.EmailMessage;
+import jakarta.mail.Flags;
 import sieve.JavaxMailAdapter;
-import utils.StringUtils;
 import org.apache.jsieve.*;
 import org.apache.jsieve.parser.generated.Node;
 
-import jakarta.mail.Flags;
 import jakarta.mail.Folder;
 import jakarta.mail.Message;
 import jakarta.mail.Session;
-import jakarta.mail.event.MessageCountAdapter;
-import jakarta.mail.internet.MimeMessage;
+import utils.ConsoleUtils;
+import utils.FlagUtils;
+
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Arrays;
 import java.util.Properties;
 
@@ -38,7 +32,7 @@ public class Main
         Node n = factory.parse(new FileInputStream(scriptResource));
 
         Session session = Session.getInstance(new Properties());
-        session.setDebug(false);
+        session.setDebug(true);
         IMAPStore store = (IMAPStore) session.getStore("imaps");
 
 
@@ -58,14 +52,23 @@ public class Main
         for(Message message: messages){
 
             IMAPMessage imapMessage = (IMAPMessage) message;
-            System.out.println(Arrays.toString(imapMessage.getFlags().getUserFlags()));
-            Flags flags = imapMessage.getFlags();
-            flags.add("PISS");
-            imapMessage.setFlags(flags, true);
+//            for (String s : FlagUtils.getAllFlagStrings(imapMessage.getFlags()))
+//            {
+//                System.out.print(s + "  |  ");
+//            }
+//            System.out.println();
+//            System.out.println(Arrays.toString(imapMessage.getFlags().getUserFlags()));
+//            message.setFlag(Flags.Flag.SEEN, false);
+
+//            imapMessage.getFlags().remove(Flags.Flag.SEEN);
+//            System.out.println(message.getFlags());
+//            System.out.println("============");
+
+
 ////            System.out.println(imapMessage.getFolder().getName());
-//
-//            JavaxMailAdapter mailAdapter = new JavaxMailAdapter(imapMessage);
-//            factory.evaluate(mailAdapter, n);
+
+            JavaxMailAdapter mailAdapter = new JavaxMailAdapter(imapMessage);
+            factory.evaluate(mailAdapter, n);
 
         }
 

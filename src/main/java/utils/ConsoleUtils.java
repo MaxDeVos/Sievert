@@ -3,6 +3,9 @@ package utils;
 import jakarta.mail.Message;
 import jakarta.mail.MessagingException;
 
+import java.util.List;
+import java.util.StringJoiner;
+
 public class ConsoleUtils
 {
 
@@ -21,5 +24,13 @@ public class ConsoleUtils
                 throw new RuntimeException(ex);
             }
         }
+    }
+
+    public static void printListContents(List<Object> list){
+        StringJoiner joiner = new StringJoiner(" | ");
+        for(Object o : list){
+            joiner.add(String.valueOf(o));
+        }
+        System.out.println(" | " + joiner + " | ");
     }
 }

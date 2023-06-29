@@ -6,11 +6,11 @@ import models.EmailMessage;
 import models.IMAPFlags;
 import org.apache.jsieve.mail.Action;
 import sieve.actions.MailAction;
-import sieve.actions.actionContexts.AddFlagActionContext;
-import sieve.actions.actionContexts.RemoveFlagActionContext;
+import sieve.actions.actionContexts.SetFlagActionContext;
 import utils.FlagUtils;
 
-public class AddFlagAction implements MailAction
+//TODO make this match the RFC 5232
+public class SetFlagAction implements MailAction
 {
     /**
      * Executes the given action.
@@ -22,17 +22,15 @@ public class AddFlagAction implements MailAction
     @Override
     public void execute(Action action, EmailMessage mail) throws MessagingException
     {
-        if (action instanceof final AddFlagActionContext removeFlagActionContext) {
+        if (action instanceof final SetFlagActionContext removeFlagActionContext)
+        {
             execute(removeFlagActionContext, mail);
         }
     }
 
-    public void execute(AddFlagActionContext actionContext, EmailMessage mail) throws MessagingException
+    public void execute(SetFlagActionContext action, EmailMessage mail) throws MessagingException
     {
         // JavaMail takes care of case where flag doesn't exist and handles lowercase conversion
-        IMAPFlags newFlags = new IMAPFlags(actionContext.flags);
-        newFlags.add(mail.getOriginalMessageReference().getFlags());
-        mail.getOriginalMessageReference().setFlags(newFlags, true);
-
+        IMAPFlags flags = new IMAPFlags(action.flags);
     }
 }

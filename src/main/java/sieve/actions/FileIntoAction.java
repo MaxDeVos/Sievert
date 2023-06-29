@@ -1,7 +1,5 @@
 package sieve.actions;
 
-import com.sun.mail.imap.IMAPFolder;
-import jakarta.mail.Message;
 import models.EmailMessage;
 import org.apache.jsieve.mail.Action;
 import org.apache.jsieve.mail.ActionFileInto;
@@ -11,12 +9,9 @@ import jakarta.mail.MessagingException;
 public class FileIntoAction implements MailAction
 {
 
-    private static final char HIERARCHY_DELIMITER = '.';
-
     public void execute(Action action, EmailMessage mail) throws MessagingException
     {
-        if (action instanceof ActionFileInto) {
-            final ActionFileInto fileIntoAction = (ActionFileInto) action;
+        if (action instanceof final ActionFileInto fileIntoAction) {
             execute(fileIntoAction, mail);
         }
     }
@@ -47,7 +42,8 @@ public class FileIntoAction implements MailAction
      */
     public void execute(ActionFileInto anAction, EmailMessage aMail) throws MessagingException
     {
-        System.out.println("FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
+//        LogManager.getLogger().log(Level.INFO, "FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
+        System.out.println( "FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
         aMail.move(anAction.getDestination());
     }
 }

@@ -1,4 +1,4 @@
-package sieve.actions;
+package sieve;
 
 
 import java.util.concurrent.ConcurrentHashMap;
@@ -8,6 +8,13 @@ import jakarta.mail.MessagingException;
 
 import models.EmailMessage;
 import org.apache.jsieve.mail.*;
+import sieve.actions.*;
+import sieve.actions.actionContexts.AddFlagActionContext;
+import sieve.actions.actionContexts.RemoveFlagActionContext;
+import sieve.actions.actionContexts.SetFlagActionContext;
+import sieve.actions.flags.AddFlagAction;
+import sieve.actions.flags.RemoveFlagAction;
+import sieve.actions.flags.SetFlagAction;
 
 /**
  * Dynamically dispatches an Action depending on the type of Action received at runtime.
@@ -66,6 +73,10 @@ public class ActionDispatcher
         actionMap.put(ActionKeep.class, new KeepAction());
         actionMap.put(ActionRedirect.class, new RedirectAction());
         actionMap.put(ActionReject.class, new RejectAction());
+        actionMap.put(AddFlagActionContext.class, new AddFlagAction());
+        actionMap.put(RemoveFlagActionContext.class, new RemoveFlagAction());
+        actionMap.put(SetFlagActionContext.class, new SetFlagAction());
+
 //        actionMap.put(ActionDiscard.class, new Discard)
         return actionMap;
     }

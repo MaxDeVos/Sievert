@@ -1,9 +1,7 @@
 package sieve;
 
 import com.sun.mail.imap.IMAPMessage;
-import sieve.actions.ActionDispatcher;
 import models.EmailMessage;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.jsieve.SieveContext;
 import org.apache.jsieve.exception.InternetAddressException;
 import org.apache.jsieve.exception.SieveException;
@@ -14,11 +12,16 @@ import org.apache.jsieve.mail.SieveMailException;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.InternetAddress;
-import jakarta.mail.internet.MimeMessage;
+import org.apache.jsieve.parser.address.SieveAddressBuilder;
+import org.apache.jsieve.parser.generated.address.ParseException;
+import utils.ConsoleUtils;
+import utils.StringUtils;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 public class JavaxMailAdapter implements MailAdapter
 {
@@ -288,37 +291,30 @@ public class JavaxMailAdapter implements MailAdapter
         return isInBodyText(phrasesCaseInsensitive);
     }
 
+    /** bruh */
     public Address[] parseAddresses(String arg) throws SieveMailException, InternetAddressException
     {
-
-        List<Address> addresses = new LinkedList<>();
-
+        String rawAddresses = null;
         try
         {
-            for (jakarta.mail.Address jxAddress : message.getAllRecipients())
-            {
-                InternetAddress iAddress = (InternetAddress) jxAddress;
-                String rawEmailAddress = iAddress.getAddress();
-                String[] emailParts = rawEmailAddress.split("@");
+            rawAddresses = message.getHeader(arg.toLowerCase(Locale.ENGLISH), ",");
+            rawAddresses = StringUtils.replace(rawAddresses, "\r", "");
+            rawAddresses = StringUtils.replace(rawAddresses, "\n", "");
 
-                if(emailParts.length < 2){
-                    throw new InternetAddressException("Email address is fucked: " + iAddress);
-                }
-
-                addresses.add(new AddressImpl(emailParts[0], emailParts[1]));
-
-            }
-        } catch (MessagingException e)
+            SieveAddressBuilder builder = new SieveAddressBuilder();
+            builder.addAddresses(rawAddresses);
+            return builder.getAddresses();
+        }
+        catch (MessagingException e)
         {
             System.out.println("PISSED THE BED");
             throw new SieveMailException(e);
         }
-
-        // for some reason IntelliJ gets big sad if I cast it directly using .toArray or .stream().toArray()
-        // but it likes this, so this it will be
-        Address[] out = new Address[addresses.size()];
-        out = addresses.toArray(out);
-        return out;
-
+        catch (ParseException e)
+        {
+            e.printStackTrace();
+            System.out.println(rawAddresses);
+            throw new RuntimeException(e);
+        }
     }
 }

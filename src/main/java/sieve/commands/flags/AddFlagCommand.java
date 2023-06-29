@@ -40,4 +40,9 @@ public class AddFlagCommand extends AbstractActionCommand
         mail.addAction(new AddFlagActionContext(flags));
         return null;
     }
+
+    protected void validateArguments(Arguments arguments, SieveContext context)
+            throws SieveException {
+
+    }
 }
