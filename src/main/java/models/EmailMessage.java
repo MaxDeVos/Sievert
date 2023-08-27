@@ -72,6 +72,7 @@ public class EmailMessage extends MimeMessage
         IMAPFolder destinationFolder = (IMAPFolder) originalMessageReference.getFolder().getStore().getFolder(destination);
         destinationFolder.open(Folder.READ_WRITE);
         currentFolder.moveMessages(new Message[]{originalMessageReference}, destinationFolder);
+        destinationFolder.getMessage(originalMessageReference.getMessageNumber());
         destinationFolder.close(true);
     }
 

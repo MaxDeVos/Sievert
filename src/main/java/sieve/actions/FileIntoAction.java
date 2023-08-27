@@ -43,7 +43,7 @@ public class FileIntoAction implements MailAction
     public void execute(ActionFileInto anAction, EmailMessage aMail) throws MessagingException
     {
 //        LogManager.getLogger().log(Level.INFO, "FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
-        System.out.println( "FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
+//        System.out.println( "FILING " + aMail.getSubject() + " INTO " + anAction.getDestination());
         aMail.move(anAction.getDestination());
     }
 }
